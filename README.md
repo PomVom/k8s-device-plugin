@@ -1,7 +1,8 @@
-# NVIDIA device plugin for Kubernetes
+# Fork of NVIDIA device plugin for Kubernetes with support for infinite fake GPUs
 
 ## Table of Contents
 
+- [About this fork](#about-this-fork)
 - [About](#about)
 - [Prerequisites](#prerequisites)
 - [Quick Start](#quick-start)
@@ -12,6 +13,13 @@
 - [Changelog](#changelog)
 - [Issues and Contributing](#issues-and-contributing)
 
+
+## About this fork
+This fork advertises multiple fake GPU for each real GPU, allowing to share a GPU between multiple pods using the Kubernetes device plugin api.
+
+The goal is to schedule pods on GPUs until the GPU memory is full 9GPU memory bin-packing).
+
+For proper scheduling, this device plugin advertises `SharedGPUMemory` as [Kubernetes Extended Resources](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#extended-resources). Since the `SharedGPUMemory` resource is at the Node level (instead of at the Device level), we effectively support only one GPU per node.
 
 ## About
 
