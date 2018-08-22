@@ -132,25 +132,25 @@ The next sections are focused on building the device plugin and running it.
 ### With Docker
 
 #### Build
-Option 1, pull the prebuilt image from [Docker Hub](https://hub.docker.com/r/nvidia/k8s-device-plugin):
+Option 1, pull the prebuilt image from [Docker Hub](https://hub.docker.com/r/deepomatic/infinite-gpus-nvidia-k8s-device-plugin):
 ```shell
-$ docker pull nvidia/k8s-device-plugin:1.10
+$ docker pull deepomatic/infinite-gpus-nvidia-k8s-device-plugin:1.10
 ```
 
 Option 2, build without cloning the repository:
 ```shell
-$ docker build -t nvidia/k8s-device-plugin:1.10 https://github.com/NVIDIA/k8s-device-plugin.git#v1.10
+$ docker build -t deepomatic/infinite-gpus-nvidia-k8s-device-plugin:1.10 https://github.com/deepomatic/infinite-gpus-nvidia-k8s-device-plugin.git#deepomatic/v1.10
 ```
 
 Option 3, if you want to modify the code:
 ```shell
-$ git clone https://github.com/NVIDIA/k8s-device-plugin.git && cd k8s-device-plugin
-$ docker build -t nvidia/k8s-device-plugin:1.10 .
+$ git clone https://github.com/deepomatic/infinite-gpus-nvidia-k8s-device-plugin.git && cd infinite-gpus-nvidia-k8s-device-plugin
+$ docker build -t deepomatic/infinite-gpus-nvidia-k8s-device-plugin:1.10 .
 ```
 
 #### Run locally
 ```shell
-$ docker run --security-opt=no-new-privileges --cap-drop=ALL --network=none -it -v /var/lib/kubelet/device-plugins:/var/lib/kubelet/device-plugins nvidia/k8s-device-plugin:1.10
+$ docker run --security-opt=no-new-privileges --cap-drop=ALL --network=none -it -v /var/lib/kubelet/device-plugins:/var/lib/kubelet/device-plugins deepomatic/infinite-gpus-nvidia-k8s-device-plugin:1.10
 ```
 
 #### Deploy as Daemon Set:
@@ -183,5 +183,5 @@ $ ./k8s-device-plugin
 
 # Issues and Contributing
 
-* You can report a bug by [filing a new issue](https://github.com/NVIDIA/k8s-device-plugin/issues/new)
+* You can report a bug by [filing a new issue](https://github.com/deepomatic/infinite-gpus-nvidia-k8s-device-plugin/issues/new)
 * You can contribute by opening a [pull request](https://help.github.com/articles/using-pull-requests/)
