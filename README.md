@@ -88,7 +88,7 @@ Once you have enabled this option on *all* the GPU nodes you wish to use,
 you can then enable GPU support in your cluster by deploying the following Daemonset:
 
 ```shell
-$ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.10/nvidia-device-plugin.yml
+$ kubectl create -f https://raw.githubusercontent.com/Deepomatic/infinite-gpus-nvidia-k8s-device-plugin/deepomatic/v1.10/deepomatic-infinite-gpus-nvidia-device-plugin.yml
 ```
 
 ### Running GPU Jobs
@@ -155,7 +155,7 @@ $ docker run --security-opt=no-new-privileges --cap-drop=ALL --network=none -it 
 
 #### Deploy as Daemon Set:
 ```shell
-$ kubectl create -f nvidia-device-plugin.yml
+$ kubectl create -f deepomatic-infinite-gpus-nvidia-device-plugin.yml
 ```
 
 ### Without Docker

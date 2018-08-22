@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: nvidia-device-plugin-daemonset
+  name: deepomatic-infinite-gpus-nvidia-device-plugin-daemonset
   namespace: kube-system
 spec:
   template:
@@ -12,7 +12,7 @@ spec:
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ""
       labels:
-        name: nvidia-device-plugin-ds
+        name: deepomatic-infinite-gpus-nvidia-device-plugin-ds
     spec:
       tolerations:
       # Allow this pod to be rescheduled while the node is in "critical add-ons only" mode.
@@ -21,7 +21,7 @@ spec:
         operator: Exists
       containers:
       - image: nvidia/k8s-device-plugin:1.10
-        name: nvidia-device-plugin-ctr
+        name: deepomatic-infinite-gpus-nvidia-device-plugin-ctr
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
