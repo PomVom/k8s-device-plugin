@@ -164,7 +164,7 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.Alloc
 				"NVIDIA_VISIBLE_DEVICES": strings.Join(realDeviceIDs, ","),
 			},
 		}
-		fmt.Println("! Try to llocate device: " + strings.Join(realDeviceIDs, ","))
+		log.Println("! Try to allocate devices", realDeviceIDs)
 
 		for _, id := range req.DevicesIDs {
 			if !deviceExists(devs, id) {

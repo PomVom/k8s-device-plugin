@@ -29,12 +29,20 @@ func extractRealDeviceID(fakeDeviceID string) string {
 	return strings.Split(fakeDeviceID, "-_-")[0]
 }
 
-func getNumberContainersPerGPU() (numGPU int) {
-	strNum := os.Getenv(envNumberContainersPerGPU)
-	numGPU, _ = strconv.Atoi(strNum)
-	if numGPU < 1 {
-		numGPU = 1
+func getNumberContainersPerGPU() (numGPU uint) {
+	numGPU = 1 // default value
+	strNum, present := os.LookupEnv(envNumberContainersPerGPU)
+	if !present {
+		return
 	}
+	rawNumGPU, err := strconv.Atoi(strNum)
+	if err != nil {
+		log.Panicf("Fatal: Could not parse %s environment variable: %v\n", envNumberContainersPerGPU, err)
+	}
+	if rawNumGPU < 1 {
+		log.Panicf("Fatal: invalid %s environment variable value: %v\n", envNumberContainersPerGPU, rawNumGPU)
+	}
+	numGPU = uint(rawNumGPU)
 	return
 }
 
@@ -43,13 +51,13 @@ func getDevices() []*pluginapi.Device {
 	check(err)
 
 	var devs []*pluginapi.Device
-	fmt.Println("List devices")
-	for j := uint(0); j < uint(getNumberContainersPerGPU()); j++ {
+	log.Println("List devices")
+	for j := uint(0); j < getNumberContainersPerGPU(); j++ {
 		for i := uint(0); i < n; i++ {
 			d, err := nvml.NewDeviceLite(i)
 			check(err)
 			fakeID := generateFakeDeviceID(d.UUID, j)
-			fmt.Println("# Device ID: " + fakeID)
+			log.Println("# Device ID:", fakeID)
 			devs = append(devs, &pluginapi.Device{
 				ID:     fakeID,
 				Health: pluginapi.Healthy,
