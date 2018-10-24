@@ -1,6 +1,7 @@
 Dockerfile
 .git
 Jenkinsfile
+.dockerignore
 
 docker/
 examples/
