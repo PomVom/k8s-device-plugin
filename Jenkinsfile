@@ -28,6 +28,7 @@ node {
 
                 if (! isPR) {
                     echo "Mainline branch, pushing to repository"
+                    image.push()
                     image.push("${version}-${os}")
                     if (! noOSSuffix) {
                         image.push("${version}")
