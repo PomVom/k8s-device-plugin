@@ -41,63 +41,6 @@ podTemplate(label: 'mypod', containers: [
                         }
                     }
                 }
-                stage('Deploy'){
-
-                    sh 'sed -i -e "s/DOCK_IMAGE_TAG/${dockerTag}/g"  deployment.json'
-                    sh 'sed -i -e "s/POD_NAME/${podName}/g"  deployment.json'
-                    sh 'sed -i -e "s/CLUSTER_VALUE/$deployment/g" deployment.json'
-                    sh 'sed -i -e "s/SFS_HOSTNAME/$fileserver/g" deployment.json'
-                    sh 'sed -i -e "s/NODE_POOL/$nodePool/g"  deployment.json'
-                    sh 'sed -i -e "s/MEMORY_REQUESTS/$memory/g"  deployment.json'
-                    sh 'sed -i -e "s/CPU_REQUESTS/$cpu/g"  deployment.json'
-                    sh 'sed -i -e "s/POD_SCALE/$scale/g"  deployment.json'
-                    sh 'sed -i -e "s/GPU_LIMIT/$gpu/g"  deployment.json'
-
-                    container('kubectl') {
-                        sh 'kubectl config get-contexts'
-                    }
-
-                    if("$deployment" == "Test"){
-                        sh 'echo "test deployment start"'
-
-                        if("$mode" == "New"){
-                            sh 'echo "new deployment"'
-
-                            container('kubectl') {
-                                sh 'kubectl delete --context gke_paparazme-158910_us-central1-a_ppzme-test-cluster deployments/${podName} || exit 0'
-                                sh 'kubectl create --context gke_paparazme-158910_us-central1-a_ppzme-test-cluster -f deployment.json'
-                            }
-                        }
-                        else {
-                            sh 'echo "set new image"'
-
-                            container('kubectl') {
-                                sh 'kubectl set image --context gke_paparazme-158910_us-central1-a_ppzme-test-cluster deployments/${podName} ${podName}=gcr.io/paparazme-158910/${podName}:${dockerTag} || exit 0'
-                            }
-                        }
-                    }
-                    if("$deployment" == "Prod"){
-                        sh 'echo "production deployment"'
-
-                        if("$mode" == "New"){
-                            container('kubectl') {
-                                sh 'kubectl delete --context gke_paparazme-158910_us-central1-a_ppzme-prod deployments/${podName} || exit 0'
-                                sh 'kubectl create --context gke_paparazme-158910_us-central1-a_ppzme-prod -f deployment.json'
-                            }
-                        }
-                        else {
-                            container('kubectl') {
-                                sh 'kubectl set image --context gke_paparazme-158910_us-central1-a_ppzme-prod deployments/${podName} ${podName}=gcr.io/paparazme-158910/${podName}:${dockerTag} || exit 0'
-                            }
-                        }
-                    }
-                    if("$deployment" == "None"){
-                        sh 'echo "none deployment"'
-
-                        sh ('ls .')
-                        sh 'echo "Deploy skipped"'
-                    }
-                }
             }
         }catch (err) {
             currentBuild.result = "FAILURE"
