@@ -16,6 +16,7 @@ podTemplate(label: 'mypod', containers: [
                 }
                 stage('Build Image') {
                     container('docker') {
+                        sh 'docker version'
                         docker.withRegistry("https://mirror.gcr.io") { 
                             app = docker.build('${dockerImage}:${dockerTag}')
                         }
